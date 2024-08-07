@@ -7,22 +7,34 @@
     const {
       urlInput,
       method,
-      headersInput,
       bodyInput,
       error,
       validate,
       path,
       value,
+      actionId,
     } = options;
-    const { useText, env } = B;
+    const { useText, env, useActionJs } = B;
     const isDev = env === 'dev';
     const urlText = useText(urlInput);
-    const headers = useText(headersInput) || null;
     const body = useText(bodyInput) || null;
     const errorText = useText(error);
     const pathText = useText(path);
     const valueText = useText(value);
     const [loading, setLoading] = useState(false);
+    const [actionCallback, { loading: isLoadingAction }] = useActionJs(
+      actionId,
+      {
+        variables: { id: actionId },
+        onCompleted(response) {
+          const token = response.action.results;
+          getResponse(urlText, token);
+        },
+        onError(error) {
+          B.triggerEvent('onError', error);
+        },
+      },
+    );
 
     const getValueFromObject = (obj, desc) => {
       let object = obj;
@@ -31,23 +43,29 @@
       return object;
     };
 
-    const getResponse = url => {
+    const getResponse = (url, token) => {
       setLoading(true);
 
       try {
         fetch(url, {
           method,
-          ...(headers && { headers: JSON.parse(headers) }),
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            ...(token && {
+              Authorization: token,
+            }),
+          },
           ...(body && { body }),
         })
-          .then(resp => {
+          .then((resp) => {
             if (!resp.ok) {
               B.triggerEvent('onError', { message: errorText });
               throw new Error(`${method} ${url} was not ok!`);
             }
             return resp.json();
           })
-          .then(responseJson => {
+          .then((responseJson) => {
             const responseValue = getValueFromObject(responseJson, pathText);
 
             if (String(responseValue) === valueText || !validate) {
@@ -65,14 +83,22 @@
     };
 
     useEffect(() => {
-      B.defineFunction('Fetch', () => getResponse(urlText));
+      B.defineFunction('Fetch', () =>
+        actionId ? actionCallback() : getResponse(urlText),
+      );
     }, []);
 
     useEffect(() => {
-      if (loading) B.triggerEvent('onLoad');
-    }, [loading]);
+      if (loading || isLoadingAction) {
+        B.triggerEvent('onLoad');
+      }
+    }, [loading, isLoadingAction]);
 
-    return isDev ? <div className={classes.pristine}>{urlText}</div> : <></>;
+    return isDev ? (
+      <div className={classes.pristine}>{urlText || 'Fetch'}</div>
+    ) : (
+      <></>
+    );
   })(),
   styles: () => () => ({
     pristine: {

@@ -43,12 +43,6 @@
         },
         {
           type: 'VARIABLE',
-          label: 'Headers',
-          key: 'headersInput',
-          value: [''],
-        },
-        {
-          type: 'VARIABLE',
           label: 'Body',
           key: 'bodyInput',
           value: [''],
@@ -99,6 +93,14 @@
               comparator: 'EQ',
               value: true,
             },
+          },
+        },
+        {
+          label: 'Action for token',
+          key: 'actionId',
+          type: 'ACTION_JS',
+          configuration: {
+            disabled: true,
           },
         },
       ],
