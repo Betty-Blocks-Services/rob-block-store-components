@@ -9,7 +9,7 @@ import {
   size,
   toggle,
   buttongroup,
-  showIf,
+  hideIf,
 } from '@betty-blocks/component-sdk';
 
 import { advanced } from '../../advanced';
@@ -18,7 +18,15 @@ export const categories = [
   {
     label: 'Position',
     expanded: false,
-    members: ['placement', 'tooltipPlacement'],
+    members: [
+      'placement',
+      'tooltipPlacement',
+      'position',
+      'top',
+      'right',
+      'bottom',
+      'left',
+    ],
   },
   {
     label: 'State',
@@ -149,28 +157,28 @@ export const speedDialOptions = {
     value: '',
     configuration: {
       as: 'UNIT',
-      condition: showIf('position', 'EQ', 'fixed'),
+      condition: hideIf('position', 'EQ', 'static'),
     },
   }),
   right: size('Right position', {
     value: '50px',
     configuration: {
       as: 'UNIT',
-      condition: showIf('position', 'EQ', 'fixed'),
+      condition: hideIf('position', 'EQ', 'static'),
     },
   }),
   bottom: size('Bottom position', {
     value: '50px',
     configuration: {
       as: 'UNIT',
-      condition: showIf('position', 'EQ', 'fixed'),
+      condition: hideIf('position', 'EQ', 'static'),
     },
   }),
   left: size('Left position', {
     value: '',
     configuration: {
       as: 'UNIT',
-      condition: showIf('position', 'EQ', 'fixed'),
+      condition: hideIf('position', 'EQ', 'static'),
     },
   }),
 
