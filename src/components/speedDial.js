@@ -7,13 +7,14 @@
     const { CircularProgress } = window.MaterialUI.Core;
     const { SpeedDial, SpeedDialIcon } = window.MaterialUI.Lab;
     const {
-      disabled,
-      icon,
       isMenuVisible,
-      isTooltipVisible,
-      tooltipPlacement,
+      icon,
       placement,
+      tooltipPlacement,
+      position,
+      disabled,
       size,
+      isTooltipVisible,
       dataComponentAttribute,
     } = options;
 
@@ -106,8 +107,7 @@
         pointerEvents: 'none',
       },
       speedDial: {
-        position: ({ options: { position } }) =>
-          position === 'fixed' && isDev ? 'absolute' : position,
+        position: ({ options: { position } }) => position,
         top: ({ options: { top } }) => top,
         right: ({ options: { right } }) => right,
         bottom: ({ options: { bottom } }) => bottom,
