@@ -4,6 +4,7 @@ import {
   ThemeColor,
   icon,
   hideIf,
+  displayLogic,
 } from '@betty-blocks/component-sdk';
 import { advanced } from '../../advanced';
 
@@ -33,6 +34,10 @@ export const speedDialItemOptions = {
       showOnDrop: true,
     },
   }),
+  displayLogic: displayLogic('Display logic', {
+    value: {},
+  }),
+
   iconColor: color('Icon color', {
     value: ThemeColor.PRIMARY,
     configuration: { condition: hideIf('icon', 'EQ', 'none') },

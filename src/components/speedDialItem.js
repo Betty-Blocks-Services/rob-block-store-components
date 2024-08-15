@@ -5,10 +5,12 @@
   orientation: 'HORIZONTAL',
   jsx: (() => {
     const { SpeedDialAction } = window.MaterialUI.Lab;
-    const { icon, label, dataComponentAttribute } = options;
+    const { label, icon, displayLogic, dataComponentAttribute } = options;
     const { isTooltipVisible, tooltipPlacement, handleClose, open } = parent;
-    const { useText, Icon } = B;
+    const { env, useText, Icon, useLogic } = B;
+    const isDev = env === 'dev';
     const labelText = useText(label);
+    const logic = useLogic(displayLogic);
 
     const onClick = (event) => {
       const { type } = event;
@@ -32,6 +34,10 @@
         data-component={useText(dataComponentAttribute)}
       />
     );
+
+    if (!isDev && !logic) {
+      return <></>;
+    }
 
     return speedDialItemCmp;
   })(),
