@@ -8,11 +8,14 @@ import {
   sizes,
   size,
   toggle,
+  variable,
   buttongroup,
   hideIf,
 } from '@betty-blocks/component-sdk';
 
 import { advanced } from '../../advanced';
+import { SpeedDialItem } from '../../SpeedDialItem';
+import { speedDialItemOptions } from '../../SpeedDialItem/options';
 
 export const categories = [
   {
@@ -51,7 +54,31 @@ export const categories = [
   },
 ];
 
+const children = [
+  SpeedDialItem({
+    options: {
+      ...speedDialItemOptions,
+      label: variable('Label', {
+        value: [],
+        showInAddChild: true,
+        showInReconfigure: true,
+      }),
+      icon: icon('Icon', {
+        value: 'none',
+        showInAddChild: true,
+        showInReconfigure: true,
+      }),
+    },
+  }),
+];
+
 export const speedDialOptions = {
+  reconfigure: reconfigure('Reconfigure', {
+    value: { children, reconfigureWizardType: 'ChildrenSelector' },
+  }),
+  addChild: addChild('Add SpeedDial Item', {
+    value: { children, addChildWizardType: 'ChildSelector' },
+  }),
   isMenuVisible: toggle('Toggle menu', {
     value: true,
     configuration: { as: 'VISIBILITY' },
