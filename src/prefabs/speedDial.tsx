@@ -2,7 +2,7 @@ import { prefab, Icon } from '@betty-blocks/component-sdk';
 import { SpeedDial, SpeedDialItem } from './structures';
 
 const attr = {
-  icon: Icon.MenuIcon,
+  icon: Icon.IncludeIcon,
   category: 'NAVIGATION',
   keywords: [
     'Navigation',
