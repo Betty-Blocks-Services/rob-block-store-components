@@ -1,41 +1,36 @@
 (() => ({
-  name: 'GoogleTag',
+  name: 'Google Tag Manager',
   type: 'BODY_COMPONENT',
   allowedTypes: [],
   orientation: 'HORIZONTAL',
   jsx: (() => {
     const { env, useText } = B;
     const isDev = env === 'dev';
-    const { googleTagId } = options;
-    const googleTagIdText = useText(googleTagId);
+    const { type, gTag, gtmTag } = options;
+    const googleTagText = useText(type === 'gtm' ? gtmTag : gTag);
 
     const insertGoogleTag = () => {
       const head = document.getElementsByTagName('head')[0];
       const scriptImport = document.createElement('script');
       const scriptTag = document.createElement('script');
-      scriptImport.async = true;
-      scriptImport.src = `https://www.googletagmanager.com/gtag/js?id=${googleTagIdText}`;
-      const wuser = localStorage.getItem('wuser');
 
-      if (wuser) {
+      if (type === 'gtm') {
+        scriptImport.innerText = `window.dataLayer = window.dataLayer || [];`;
         scriptTag.innerText = `
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          gtag('js', new Date());
-          gtag('config', '${googleTagIdText}', {
-            'user_id': '${wuser}' 
-          });
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','${googleTagText}');
         `;
       } else {
+        scriptImport.async = true;
+        scriptImport.src = `https://www.googletagmanager.com/gtag/js?id=${googleTagText}`;
         scriptTag.innerText = `
           window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
+          function gtag() { dataLayer.push(arguments); };
           gtag('js', new Date());
-          gtag('config', '${googleTagIdText}');
+          gtag('config', '${googleTagText}');
         `;
       }
 
@@ -45,14 +40,16 @@
 
     useEffect(() => {
       if (!isDev) {
-        if (googleTagId) {
+        if (googleTagText) {
           insertGoogleTag();
         }
       }
     }, []);
 
     return isDev ? (
-      <div className={classes.pristine}>GOOGLE TAG - {googleTagIdText}</div>
+      <div className={classes.pristine}>
+        GOOGLE TAG MANAGER - {googleTagText}
+      </div>
     ) : (
       <></>
     );

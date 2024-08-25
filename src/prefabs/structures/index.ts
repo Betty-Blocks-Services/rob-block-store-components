@@ -3,6 +3,7 @@ import { Box } from './Box';
 import { Button } from './Button';
 import { Fetch } from './Fetch';
 import { FilterComponent } from './FilterComponent';
+import { GoogleTagManager } from './GoogleTagManager';
 import { SpeedDial } from './SpeedDial';
 import { SpeedDialItem } from './SpeedDialItem';
 
@@ -11,6 +12,7 @@ import { boxOptions } from './Box/options';
 import { buttonOptions } from './Button/options';
 import { options as fetchOptions } from './Fetch/options';
 import { filterComponentOptions } from './FilterComponent/options';
+import { googleTagManagerOptions } from './GoogleTagManager/options';
 import { speedDialOptions } from './SpeedDial/options';
 import { speedDialItemOptions } from './SpeedDialItem/options';
 
@@ -20,6 +22,7 @@ export {
   Button,
   Fetch,
   FilterComponent,
+  GoogleTagManager,
   SpeedDial,
   SpeedDialItem,
   azureFileUploadOptions,
@@ -27,6 +30,7 @@ export {
   buttonOptions,
   fetchOptions,
   filterComponentOptions,
+  googleTagManagerOptions,
   speedDialOptions,
   speedDialItemOptions,
 };
