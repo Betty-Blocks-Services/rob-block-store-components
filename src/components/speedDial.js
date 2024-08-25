@@ -11,7 +11,6 @@
       icon,
       placement,
       tooltipPlacement,
-      position,
       disabled,
       size,
       isTooltipVisible,
