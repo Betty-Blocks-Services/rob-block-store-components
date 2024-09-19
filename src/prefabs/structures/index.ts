@@ -6,6 +6,7 @@ import { FilterComponent } from './FilterComponent';
 import { GoogleTagManager } from './GoogleTagManager';
 import { SpeedDial } from './SpeedDial';
 import { SpeedDialItem } from './SpeedDialItem';
+import { TextInput } from './TextInput';
 import { TinyMCE } from './TinyMCE';
 
 import { azureFileUploadOptions } from './AzureFileUpload/options';
@@ -16,6 +17,7 @@ import { filterComponentOptions } from './FilterComponent/options';
 import { googleTagManagerOptions } from './GoogleTagManager/options';
 import { speedDialOptions } from './SpeedDial/options';
 import { speedDialItemOptions } from './SpeedDialItem/options';
+import { options as textInputOptions } from './TextInput/options';
 import { tinyMCEOptions } from './TinyMCE/options';
 
 export {
@@ -27,6 +29,7 @@ export {
   GoogleTagManager,
   SpeedDial,
   SpeedDialItem,
+  TextInput,
   TinyMCE,
   azureFileUploadOptions,
   boxOptions,
@@ -36,5 +39,6 @@ export {
   googleTagManagerOptions,
   speedDialOptions,
   speedDialItemOptions,
+  textInputOptions,
   tinyMCEOptions,
 };
