@@ -1,24 +1,41 @@
 (() => ({
-  name: 'Custom Style Sheet',
+  name: 'Style Sheet',
   type: 'CONTENT_COMPONENT',
   allowedTypes: [],
   orientation: 'HORIZONTAL',
   jsx: (() => {
-    const { styleSheetUrl } = options;
+    const { type, url, css, dataComponentAttribute } = options;
     const { env, useText } = B;
 
     const isDev = env === 'dev';
-    const head = document.getElementsByTagName('head')[0];
-    const link = document.createElement('link');
-    link.type = 'text/css';
-    link.rel = 'stylesheet';
-    link.href = useText(styleSheetUrl);
-    head.appendChild(link);
+    const parsedCss = useText(css).replace(/(&nbsp;|\s|\r\n|\n|\r)/gm, '');
+    const urlText = useText(url);
+
+    if (type === 'From URL' && urlText) {
+      const head = document.getElementsByTagName('head')[0];
+      const link = document.createElement('link');
+      link.type = 'text/css';
+      link.rel = 'stylesheet';
+      link.href = urlText;
+      link.dataComponent = useText(dataComponentAttribute) || type;
+      head.appendChild(link);
+    }
+
+    const styleSheet =
+      type === 'Inline' ? (
+        <style
+          type="text/css"
+          dangerouslySetInnerHTML={{ __html: parsedCss }}
+          data-component={useText(dataComponentAttribute) || type}
+        />
+      ) : (
+        <></>
+      );
 
     return isDev ? (
-      <div className={classes.root}>{'Custom Style Sheet'}</div>
+      <div className={classes.root}>{`Style sheet ${type}`}</div>
     ) : (
-      <></>
+      styleSheet
     );
   })(),
   styles: (B) => (t) => {
