@@ -87,9 +87,9 @@
       rawContent: useText(valueProp) || '',
     });
 
-    const getSizeInMegabytes = str => new Blob([str]).size / 1024 / 1024;
+    const getSizeInMegabytes = (str) => new Blob([str]).size / 1024 / 1024;
 
-    const handleValidation = rawContent => {
+    const handleValidation = (rawContent) => {
       const isError = !isDev && !rawContent && required;
       setError(isError);
       setHelper(isError ? valueMissingMessage : useText(helperText));
@@ -166,7 +166,7 @@
         input.setAttribute('accept', 'image/png,image/jpeg');
 
         // eslint-disable-next-line func-names
-        input.onchange = function() {
+        input.onchange = function () {
           const file = this.files[0];
           const fileSize = file.size / 1024 / 1024;
           const totalSize = getSizeInMegabytes(activeEditor.getContent());
@@ -185,7 +185,7 @@
           }
 
           const reader = new FileReader();
-          reader.onload = event => {
+          reader.onload = (event) => {
             const imageObject = new Image();
             imageObject.src = event.target.result;
 
@@ -222,12 +222,12 @@
         };
         input.click();
       },
-      setup: editor => {
+      setup: (editor) => {
         editor.on('blur', () => {
           const rawContent = editor.getContent({ format: 'text' }).trim('');
           handleValidation(rawContent);
         });
-        editor.on('keydown', event => {
+        editor.on('keydown', (event) => {
           if (event.keyCode === 9) {
             editor.execCommand('mceInsertContent', false, '&emsp;'); // inserts tab
             event.preventDefault();
@@ -257,6 +257,25 @@
       }
     }, [isDev, valueProp, placeholderText, helperText]);
 
+    const copyToClipboard = () => {
+      const data = [
+        new ClipboardItem({
+          'text/plain': new Blob(['<a href="http://google.com/">test</a>'], {
+            type: 'text/plain',
+          }),
+          'text/html': new Blob(['<a href="http://google.com/">test</a>'], {
+            type: 'text/html',
+          }),
+        }),
+      ];
+      navigator.clipboard.write(data);
+      return 'test';
+    };
+
+    useEffect(() => {
+      B.defineFunction('Copy rich text', copyToClipboard);
+    }, []);
+
     const TinymceCmp = (
       <FormControl
         className={classes.formControl}
@@ -274,7 +293,7 @@
           value={editorContent.content}
           required={required}
           disabled={disabled}
-          onInvalid={e => e.preventDefault()}
+          onInvalid={(e) => e.preventDefault()}
         />
         <Editor
           init={initConfig}
@@ -302,7 +321,7 @@
       </div>
     );
   })(),
-  styles: B => t => {
+  styles: (B) => (t) => {
     const { Styling, env, mediaMinWidth } = B;
     const isDev = env === 'dev';
     const style = new Styling(t);
