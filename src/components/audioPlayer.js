@@ -5,22 +5,16 @@
   orientation: 'HORIZONTAL',
   jsx: (() => {
     const { useText } = B;
-    const { audioSrc, labelPlay, labelPause, labelReplay } = options;
+    const { audioSrc } = options;
 
     const audioSource = useText(audioSrc);
-    const buttonLabelPlay = useText(labelPlay);
-    const buttonLabelPause = useText(labelPause);
-    const buttonLabelReplay = useText(labelReplay);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [buttonLabel, setButtonLabel] = useState(buttonLabelPlay);
     const audioRef = useRef(null);
     const progressRef = useRef(null);
 
     useEffect(() => {
-      B.defineFunction('Toggle play/pause', () => togglePlayPause());
-
       const audio = audioRef.current;
 
       // Set the duration once the metadata is loaded
@@ -38,8 +32,10 @@
 
       // Handle when the audio ends
       const handleAudioEnd = () => {
-        setIsPlaying(false); // Reset the play button state
-        setButtonLabel(buttonLabelReplay);
+        setIsPlaying(false);
+        setCurrentTime(0);
+        progressRef.current.value = 0;
+        B.triggerEvent('OnAudioEnd');
       };
 
       audio.addEventListener('loadedmetadata', setAudioData);
@@ -57,10 +53,8 @@
       const audio = audioRef.current;
       if (isPlaying) {
         audio.pause();
-        setButtonLabel(buttonLabelPlay);
       } else {
         audio.play();
-        setButtonLabel(buttonLabelPause);
       }
       setIsPlaying(!isPlaying);
     };
@@ -77,13 +71,12 @@
       return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
     };
 
+    B.defineFunction('Play/pause', () => togglePlayPause());
+
     return (
       <div className={classes.audioPlayer}>
         <audio ref={audioRef} src={audioSource} preload="metadata" />
         <div className={classes.controls}>
-          <button className={classes.playButton} onClick={togglePlayPause}>
-            {buttonLabel}
-          </button>
           <div className={classes.time}>
             {formatTime(currentTime)} / {formatTime(duration)}
           </div>
@@ -105,9 +98,7 @@
     const style = new Styling(theme);
     return {
       audioPlayer: {
-        width: ({ options: { width } }) => width || '100%',
-        maxWidth: '400px',
-        margin: '20px auto',
+        width: ({ options: { width } }) => width,
         backgroundColor: '#f7f7f7',
         border: '1px solid #ccc',
         borderRadius: '10px',
@@ -120,29 +111,12 @@
         flexDirection: 'column',
         alignItems: 'center',
       },
-      playButton: {
-        backgroundColor: ({ options: { buttonColor } }) =>
-          style.getColor(buttonColor),
-        color: ({ options: { buttonTextColor } }) =>
-          style.getColor(buttonTextColor),
-        border: 'none',
-        padding: '10px 20px',
-        fontSize: '16px',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        marginBottom: '10px',
-        transition: 'background-color 0.3s ease',
-        '&:hover': {
-          filter: 'brightness(90%)',
-        },
-      },
       time: {
         fontFamily: "'Courier New', Courier, monospace",
         marginBottom: '10px',
         fontSize: '14px',
         color: '#333',
       },
-
       rangeSlider: {
         '-webkit-appearance': 'none',
         width: '100%',
@@ -163,28 +137,30 @@
           width: '10px',
           height: '10px',
           borderRadius: '50%',
-          background: '#007bff',
+          background: ({ options: { progressButtonColor } }) =>
+            style.getColor(progressButtonColor),
           cursor: 'pointer',
           transition:
             'transform 0.2s ease, background-color 0.3s ease' /* Smooth thumb transition */,
           '&:hover': {
             transform:
               'scale(1.2)' /* Enlarge the thumb on hover for feedback */,
-            backgroundColor: '#0056b3' /* Change thumb color on hover */,
+            filter: 'brightness(90%)' /* Change thumb color on hover */,
           },
         },
         '&::-moz-range-thumb': {
           width: '10px',
           height: '10px',
           borderRadius: '50%',
-          background: '#007bff',
+          background: ({ options: { progressButtonColor } }) =>
+            style.getColor(progressButtonColor),
           cursor: 'pointer',
           transition:
             'transform 0.2s ease, background-color 0.3s ease' /* Smooth thumb transition */,
           '&:hover': {
             transform:
               'scale(1.2)' /* Enlarge the thumb on hover for feedback */,
-            backgroundColor: '#0056b3' /* Change thumb color on hover */,
+            filter: 'brightness(90%)' /* Change thumb color on hover */,
           },
         },
       },

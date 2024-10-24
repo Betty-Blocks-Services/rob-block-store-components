@@ -18,28 +18,14 @@ export const audioPlayerOptions = {
   audioSrc: variable('Audio source', {
     value: [''],
   }),
-
-  labelPlay: variable('Label play button', {
-    value: ['Play'],
-  }),
-  labelPause: variable('Label pause button', {
-    value: ['Pause'],
-  }),
-  labelReplay: variable('Label replay button', {
-    value: ['Replay'],
-  }),
-
   width: size('Width', {
     value: '',
     configuration: {
       as: 'UNIT',
     },
   }),
-  buttonColor: color('Button background color', {
+  progressButtonColor: color('Progress button color', {
     value: ThemeColor.PRIMARY,
-  }),
-  buttonTextColor: color('Button text color', {
-    value: ThemeColor.WHITE,
   }),
 
   ...advanced('AudioPlayer'),
