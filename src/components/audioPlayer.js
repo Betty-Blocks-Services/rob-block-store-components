@@ -112,10 +112,27 @@
         alignItems: 'center',
       },
       time: {
-        fontFamily: "'Courier New', Courier, monospace",
         marginBottom: '10px',
-        fontSize: '14px',
-        color: '#333',
+        color: ({ options: { textColor, textType } }) => {
+          return textColor === '[Inherit]'
+            ? style.getFontColor(textType)
+            : style.getColor(textColor);
+        },
+        fontFamily: ({ options: { textType } }) =>
+          `var(--text-fontFamily-${textType.toString().toLowerCase()})`,
+        fontSize: ({ options: { textType } }) =>
+          `var(--text-fontSize-${textType.toString().toLowerCase()})`,
+        fontStyle: ({ options: { textType } }) =>
+          `var(--text-fontStyle-${textType.toString().toLowerCase()})`,
+        fontWeight: ({ options: { textType, fontWeight } }) => {
+          return fontWeight === '[Inherit]'
+            ? style.getFontWeight(textType)
+            : fontWeight;
+        },
+        textTransform: ({ options: { textType } }) =>
+          style.getTextTransform(textType),
+        letterSpacing: ({ options: { textType } }) =>
+          style.getLetterSpacing(textType),
       },
       rangeSlider: {
         '-webkit-appearance': 'none',
@@ -141,7 +158,7 @@
             style.getColor(progressButtonColor),
           cursor: 'pointer',
           transition:
-            'transform 0.2s ease, background-color 0.3s ease' /* Smooth thumb transition */,
+            'transform 0.2s ease, background-color 0.3s ease, left 0.1s linear;' /* Smooth thumb transition */,
           '&:hover': {
             transform:
               'scale(1.2)' /* Enlarge the thumb on hover for feedback */,
@@ -156,7 +173,7 @@
             style.getColor(progressButtonColor),
           cursor: 'pointer',
           transition:
-            'transform 0.2s ease, background-color 0.3s ease' /* Smooth thumb transition */,
+            'transform 0.2s ease, background-color 0.3s ease, left 0.1s linear;' /* Smooth thumb transition */,
           '&:hover': {
             transform:
               'scale(1.2)' /* Enlarge the thumb on hover for feedback */,

@@ -4,7 +4,7 @@ import { AudioPlayer } from './structures/AudioPlayer';
 
 const attributes = {
   category: 'CONTENT',
-  icon: Icon.TitleIcon,
+  icon: Icon.SliderComponentIcon,
   keywords: [''],
 };
 
