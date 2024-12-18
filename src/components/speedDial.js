@@ -95,17 +95,17 @@
     );
   })(),
   styles: (B) => (t) => {
-    const { env, mediaMinWidth, Styling } = B;
+    const { mediaMinWidth, Styling } = B;
     const style = new Styling(t);
     const getSpacing = (idx, device = 'Mobile') =>
       idx === '0' ? '0rem' : style.getSpacing(idx, device);
-    const isDev = env === 'dev';
     return {
       wrapper: {
         display: 'inline-block',
         pointerEvents: 'none',
       },
       speedDial: {
+        display: 'inline-block !important',
         position: ({ options: { position } }) => position,
         top: ({ options: { top } }) => top,
         right: ({ options: { right } }) => right,
@@ -151,7 +151,6 @@
         },
       },
       fab: {
-        // position: 'absolute',
         backgroundColor: ({ options: { buttonColor, disabled } }) =>
           !disabled && [style.getColor(buttonColor), '!important'],
         color: ({ options: { iconColor, disabled } }) =>

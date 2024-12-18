@@ -76,9 +76,9 @@ export const speedDialOptions = {
   reconfigure: reconfigure('Reconfigure', {
     value: { children, reconfigureWizardType: 'ChildrenSelector' },
   }),
-  addChild: addChild('Add SpeedDial Item', {
-    value: { children, addChildWizardType: 'ChildSelector' },
-  }),
+  // addChild: addChild('Add SpeedDial Item', {
+  //   value: { children, addChildWizardType: 'ChildSelector' },
+  // }),
   isMenuVisible: toggle('Toggle menu', {
     value: true,
     configuration: { as: 'VISIBILITY' },
