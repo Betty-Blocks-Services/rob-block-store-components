@@ -4,19 +4,19 @@
   allowedTypes: [],
   orientation: 'HORIZONTAL',
   jsx: (() => {
-    const { type, url, css, dataComponentAttribute } = options;
-    const { env, useText } = B;
+    const { type, url, file, css, dataComponentAttribute } = options;
+    const { useText, usePublicFile } = B;
 
-    const isDev = env === 'dev';
     const parsedCss = useText(css).replace(/(&nbsp;|\s|\r\n|\n|\r)/gm, '');
     const urlText = useText(url);
+    const { url: urlFile = '' } = usePublicFile(file) || {};
 
-    if (type === 'From URL' && urlText) {
+    if ((type === 'URL' && urlText) || (type === 'File' && urlFile)) {
       const head = document.getElementsByTagName('head')[0];
       const link = document.createElement('link');
       link.type = 'text/css';
       link.rel = 'stylesheet';
-      link.href = urlText;
+      link.href = type === 'URL' ? urlText : urlFile;
       link.dataComponent = useText(dataComponentAttribute) || type;
       head.appendChild(link);
     }
@@ -32,10 +32,11 @@
         <></>
       );
 
-    return isDev ? (
-      <div className={classes.root}>{`Style sheet ${type}`}</div>
-    ) : (
-      styleSheet
+    return (
+      <div className={classes.root}>
+        {`Style sheet ${type}`}
+        <>{styleSheet}</>
+      </div>
     );
   })(),
   styles: (B) => (t) => {
