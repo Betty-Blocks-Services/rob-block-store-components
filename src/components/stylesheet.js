@@ -5,7 +5,8 @@
   orientation: 'HORIZONTAL',
   jsx: (() => {
     const { type, url, file, css, dataComponentAttribute } = options;
-    const { useText, usePublicFile } = B;
+    const { env, useText, usePublicFile } = B;
+    const isDev = env === 'dev';
 
     const parsedCss = useText(css).replace(/(&nbsp;|\s|\r\n|\n|\r)/gm, '');
     const urlText = useText(url);
@@ -32,11 +33,13 @@
         <></>
       );
 
-    return (
+    return isDev ? (
       <div className={classes.root}>
         {`Style sheet ${type}`}
         <>{styleSheet}</>
       </div>
+    ) : (
+      styleSheet
     );
   })(),
   styles: (B) => (t) => {
