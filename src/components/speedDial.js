@@ -105,7 +105,6 @@
         pointerEvents: 'none',
       },
       speedDial: {
-        display: 'inline-block !important',
         position: ({ options: { position } }) => position,
         top: ({ options: { top } }) => top,
         right: ({ options: { right } }) => right,
