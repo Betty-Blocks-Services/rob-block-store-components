@@ -9,6 +9,7 @@ import { SpeedDial } from './SpeedDial';
 import { SpeedDialItem } from './SpeedDialItem';
 import { TextInput } from './TextInput';
 import { TinyMCE } from './TinyMCE';
+import { Tooltip } from './Tooltip';
 
 import { azureFileUploadOptions } from './AzureFileUpload/options';
 import { boxOptions } from './Box/options';
@@ -21,6 +22,7 @@ import { speedDialOptions } from './SpeedDial/options';
 import { speedDialItemOptions } from './SpeedDialItem/options';
 import { options as textInputOptions } from './TextInput/options';
 import { tinyMCEOptions } from './TinyMCE/options';
+import { tooltipOptions } from './Tooltip/options';
 
 export {
   AzureFileUpload,
@@ -34,6 +36,7 @@ export {
   SpeedDialItem,
   TextInput,
   TinyMCE,
+  Tooltip,
   azureFileUploadOptions,
   boxOptions,
   buttonOptions,
@@ -45,4 +48,5 @@ export {
   speedDialItemOptions,
   textInputOptions,
   tinyMCEOptions,
+  tooltipOptions,
 };
