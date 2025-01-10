@@ -28,6 +28,12 @@
       setIsOpen(hasVisibleTooltip);
     }, [hasVisibleTooltip]);
 
+    useEffect(() => {
+      B.defineFunction('Show', () => setIsOpen(true));
+      B.defineFunction('Hide', () => setIsOpen(false));
+      B.defineFunction('Show/Hide', () => setIsOpen((s) => !s));
+    }, []);
+
     let TransitionComponent;
 
     switch (transition) {
@@ -55,8 +61,11 @@
       leaveDelay,
       TransitionComponent,
       TransitionProps: { timeout: transitionDuration },
-      ...(!isDev &&
-        followCursor && {
+      open: isOpen,
+      ...(!isDev && {
+        onOpen: () => setIsOpen(true),
+        onClose: () => setIsOpen(false),
+        ...(followCursor && {
           onMouseMove: (e) => setPosition({ x: e.pageX, y: e.pageY }),
           PopperProps: {
             anchorEl: {
@@ -73,18 +82,12 @@
             },
           },
         }),
+      }),
       classes: {
         tooltip: classes.tooltip,
         arrow: classes.arrow,
       },
     };
-
-    if (isDev) {
-      tooltipProps = {
-        ...tooltipProps,
-        open: isOpen,
-      };
-    }
 
     const tooltip = (
       <Tooltip {...tooltipProps}>
