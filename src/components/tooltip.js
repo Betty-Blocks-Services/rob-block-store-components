@@ -4,7 +4,8 @@
   allowedTypes: ['CONTAINER_COMPONENT', 'CONTENT_COMPONENT'],
   orientation: 'HORIZONTAL',
   jsx: (() => {
-    const { Tooltip, Grow, Fade, Zoom } = window.MaterialUI.Core;
+    const { Tooltip, Grow, Fade, Zoom, ClickAwayListener } =
+      window.MaterialUI.Core;
     const {
       hasVisibleTooltip,
       content,
@@ -34,6 +35,8 @@
       B.defineFunction('Show/Hide', () => setIsOpen((s) => !s));
     }, []);
 
+    const handleClickAway = () => setIsOpen(false);
+
     let TransitionComponent;
 
     switch (transition) {
@@ -59,6 +62,7 @@
       interactive: !followCursor,
       enterDelay,
       leaveDelay,
+      disableTouchListener: true,
       TransitionComponent,
       TransitionProps: { timeout: transitionDuration },
       open: isOpen,
@@ -90,11 +94,13 @@
     };
 
     const tooltip = (
-      <Tooltip {...tooltipProps}>
-        <div className={isEmpty && classes.empty} ref={tooltipRef}>
-          {isEmpty ? 'Tooltip' : children}
-        </div>
-      </Tooltip>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Tooltip {...tooltipProps}>
+          <div className={isEmpty && classes.empty} ref={tooltipRef}>
+            {isEmpty ? 'Tooltip' : children}
+          </div>
+        </Tooltip>
+      </ClickAwayListener>
     );
 
     return <div>{tooltip}</div>;
