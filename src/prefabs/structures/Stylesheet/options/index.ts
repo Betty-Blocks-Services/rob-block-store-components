@@ -36,7 +36,7 @@ export const styleSheetOptions = {
     },
   }),
   file: option('PUBLIC_FILE', {
-    label: 'File',
+    label: 'Select file',
     value: '',
     configuration: {
       condition: showIf('type', 'EQ', 'File'),
