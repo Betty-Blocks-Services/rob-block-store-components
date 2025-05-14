@@ -2,7 +2,7 @@ import { prefab, Icon } from '@betty-blocks/component-sdk';
 import { GoogleTagManager } from './structures';
 
 const attributes = {
-  category: 'LAYOUT',
+  category: 'DATA',
   icon: Icon.BarChartIcon,
   keywords: ['Google tag manager', 'script', 'tracking', 'gtm'],
 };
