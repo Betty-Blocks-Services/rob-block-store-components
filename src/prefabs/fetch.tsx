@@ -7,4 +7,4 @@ const attributes = {
   keywords: ['Action', 'hidden', 'input', 'fetch'],
 };
 
-export default prefab('Fetch v2', attributes, undefined, [Fetch({})]);
+export default prefab('Fetch', attributes, undefined, [Fetch({})]);
