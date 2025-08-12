@@ -180,7 +180,7 @@
           }
 
           if (!!maxTotalSize && newTotalSize > maxTotalSize) {
-            alert(maxTotalSizeMessage);
+            alert(maxTotalSizeExceeded);
             return;
           }
 
@@ -274,6 +274,7 @@
 
     useEffect(() => {
       B.defineFunction('Copy rich text', copyToClipboard);
+      B.defineFunction('Clear', () => tinymce.activeEditor.setContent(''));
     }, []);
 
     const TinymceCmp = (
