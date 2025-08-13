@@ -32,6 +32,7 @@ export const styles = {
       condition: showIf('hideLabel', 'EQ', false),
     },
   }),
+  placeholderColor: color('Placeholder color', { value: '#222f3eb3' }),
   borderColor: color('Border color', { value: ThemeColor.ACCENT_1 }),
   borderHoverColor: color('Border color (hover)', { value: ThemeColor.BLACK }),
   helperColor: color('Helper color', { value: ThemeColor.ACCENT_2 }),

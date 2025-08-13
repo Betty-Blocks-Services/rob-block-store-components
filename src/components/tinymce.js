@@ -23,6 +23,7 @@
       value: valueProp,
       disabled,
       placeholderText,
+      placeholderColor,
       helperText,
       menubar,
       toolbar,
@@ -71,6 +72,7 @@
       dataComponentAttribute,
     } = options;
     const { env, useText } = B;
+    console.log({ B });
     const { FormControl, InputLabel, FormHelperText } = window.MaterialUI.Core;
 
     const isDev = env === 'dev';
@@ -106,6 +108,9 @@
       content_style: `
         html { height: 100%; }
         body { height: calc(100% - 1rem); }
+        .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+          color: ${placeholderColor} !important;
+        }
       `,
       noneditable_class: 'mceNonEditable',
       plugins: `
