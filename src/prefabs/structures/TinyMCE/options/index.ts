@@ -75,6 +75,7 @@ export const categories = [
       'useDarkMode',
       'hideLabel',
       'labelColor',
+      'placeholderColor',
       'borderColor',
       'borderHoverColor',
       'helperColor',
