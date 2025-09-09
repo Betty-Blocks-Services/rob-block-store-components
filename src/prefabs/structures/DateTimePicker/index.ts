@@ -1,20 +1,24 @@
 import { component, PrefabReference } from '@betty-blocks/component-sdk';
 import { updateOption } from '../../../utils';
 import { Configuration } from '../Configuration';
-import { options as defaults } from './options';
+import { optionsResolver } from './options';
+import { addChildOptions, optionEvents } from '../TextInput/options/addChild';
 
 export enum DateInputTypes {
   DATE_TIME = 'datetime',
   DATE = 'date',
   TIME = 'time',
   MONTH = 'month',
+  YEAR = 'year',
 }
 
 export const DateTimePicker = (
   config: Configuration,
   descendants: PrefabReference[] = [],
 ) => {
-  const options = { ...(config.options || defaults) };
+  const options = {
+    ...(config.options || optionsResolver(config.inputType || 'date')),
+  };
   const style = { ...config.style };
   const ref = config.ref ? { ...config.ref } : undefined;
   const label = config.label ? config.label : undefined;
@@ -72,6 +76,9 @@ export const DateTimePicker = (
       case DateInputTypes.MONTH:
         format = 'MMMM';
         break;
+      case DateInputTypes.YEAR:
+        format = 'yyyy';
+        break;
       default:
         format = '';
     }
@@ -83,9 +90,7 @@ export const DateTimePicker = (
         : {}),
     };
 
-    const key = `${config.inputType}Format`;
-
-    options[key] = updateOption(options[key], update);
+    options.valueFormat = updateOption(options.valueFormat, update);
 
     options.type = updateOption(options.type, { value: config.inputType });
 
@@ -107,7 +112,19 @@ export const DateTimePicker = (
 
   return component(
     'DateTimePickerInput',
-    { options, style, ref, label, optionCategories: categories },
+    {
+      options,
+      style,
+      ref,
+      label,
+      optionCategories: categories,
+      optionTemplates: {
+        addChild: {
+          options: addChildOptions(config.inputType || 'date'),
+          optionEvents,
+        },
+      },
+    },
     descendants,
   );
 };
