@@ -8,6 +8,7 @@ import { PriceInput } from './PriceInput';
 import { SpeedDial } from './SpeedDial';
 import { SpeedDialItem } from './SpeedDialItem';
 import { TextInput } from './TextInput';
+import { Timer } from './Timer';
 import { TinyMCE } from './TinyMCE';
 import { Tooltip } from './Tooltip';
 
@@ -21,6 +22,7 @@ import { options as priceInputOptions } from './PriceInput/options';
 import { speedDialOptions } from './SpeedDial/options';
 import { speedDialItemOptions } from './SpeedDialItem/options';
 import { options as textInputOptions } from './TextInput/options';
+import { timerOptions } from './Timer/options';
 import { tinyMCEOptions } from './TinyMCE/options';
 import { tooltipOptions } from './Tooltip/options';
 
@@ -35,6 +37,7 @@ export {
   SpeedDial,
   SpeedDialItem,
   TextInput,
+  Timer,
   TinyMCE,
   Tooltip,
   azureFileUploadOptions,
@@ -47,6 +50,7 @@ export {
   speedDialOptions,
   speedDialItemOptions,
   textInputOptions,
+  timerOptions,
   tinyMCEOptions,
   tooltipOptions,
 };
