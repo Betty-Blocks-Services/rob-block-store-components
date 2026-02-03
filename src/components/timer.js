@@ -14,9 +14,7 @@
 
     // Set starting state based on mode
     const [seconds, setSeconds] = useState(isCountUp ? initialSeconds : goalSeconds);
-    const [isActive, setIsActive] = useState(false);
-    const [timerId, setTimerId] = useState(null);
-    const labelText = useText(label);
+    const timerRef = useRef(null);
 
     const formatTime = (totalSeconds) => {
       const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
@@ -25,15 +23,17 @@
       return `${h}:${m}:${s}`;
     };
 
-    const clearExistingTimer = () => {
-      if (timerId) clearInterval(timerId);
+    const stopLogic = () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     };
 
     const start = () => {
-      if (isActive) return;
-      setIsActive(true);
+      if (timerRef.current) return;
       
-      const id = setInterval(() => {
+      timerRef.current = setInterval(() => {
         setSeconds((prev) => {
           if (isCountUp) {
             const nextValue = prev + 1;
@@ -52,39 +52,34 @@
             if (prev <= 1) {
               B.triggerEvent('onTimerEnd');
               if (repeat) return goalSeconds;
-              clearInterval(id);
-              setIsActive(false);
+              stopLogic();
               return 0;
             }
             return prev - 1;
           }
         });
       }, 1000);
-      
-      setTimerId(id);
     };
 
-    const pause = () => {
-      setIsActive(false);
-      clearExistingTimer();
-    };
+    const pause = () => stopLogic();
 
     const reset = () => {
-      setIsActive(false);
-      clearExistingTimer();
+      stopLogic();
       setSeconds(isCountUp ? 0 : goalSeconds);
     };
 
-    B.defineFunction('startTimer', start);
-    B.defineFunction('pauseTimer', pause);
-    B.defineFunction('resetTimer', reset);
+    useEffect(() => {
+      B.defineFunction('startTimer', start);
+      B.defineFunction('pauseTimer', pause);
+      B.defineFunction('resetTimer', reset);
+    }, []);
 
     useEffect(() => {
       if (!isDev && autoStart) start();
-      return () => clearExistingTimer();
+      return () => stopLogic(); // Cleanup on unmount
     }, []);
 
-    const displayValue = showTimer ? formatTime(seconds) : labelText;
+    const displayValue = showTimer ? formatTime(seconds) : useText(label);
 
     return (
       <div className={includeStyling(classes.root)}>
