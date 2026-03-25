@@ -1,6 +1,7 @@
 import { AzureFileUpload } from './AzureFileUpload';
 import { Box } from './Box';
 import { Button } from './Button';
+import { Dialog } from './Dialog';
 import { Fetch } from './Fetch';
 import { FilterComponent } from './FilterComponent';
 import { GoogleTagManager } from './GoogleTagManager';
@@ -15,6 +16,7 @@ import { Tooltip } from './Tooltip';
 import { azureFileUploadOptions } from './AzureFileUpload/options';
 import { boxOptions } from './Box/options';
 import { buttonOptions } from './Button/options';
+import { dialogOptions } from './Dialog/options';
 import { options as fetchOptions } from './Fetch/options';
 import { filterComponentOptions } from './FilterComponent/options';
 import { googleTagManagerOptions } from './GoogleTagManager/options';
@@ -30,6 +32,7 @@ export {
   AzureFileUpload,
   Box,
   Button,
+  Dialog,
   Fetch,
   FilterComponent,
   GoogleTagManager,
@@ -43,6 +46,7 @@ export {
   azureFileUploadOptions,
   boxOptions,
   buttonOptions,
+  dialogOptions,
   fetchOptions,
   filterComponentOptions,
   googleTagManagerOptions,
