@@ -6,7 +6,7 @@
   dependencies: [
     {
       label: 'TinyMCE',
-      package: 'npm:@tinymce/tinymce-react@4.3.0',
+      package: 'npm:@tinymce/tinymce-react@latest',
       imports: ['Editor'],
     },
   ],
